@@ -47,10 +47,10 @@ drawDino();
 createBackGround();
 drawBackGrounds();
 // 文章の表示
-ctx.fillstyle = 'black';
+ctx.fillStyle = 'black';
 ctx.font = 'bold 60px serif';
-ctx.fillText(`Press Speace key`,60,150);
-ctx.fillText(`to start.`,150,230);
+ctx.fillText(`タップ または スペースキーで`,30,150);
+ctx.fillText(`ゲームスタート`,150,230);
 }
 
 function start() {
@@ -220,7 +220,30 @@ function hitCheck() {
   }
 }
 
+canvas.addEventListener("click", () => {
+    if (game.state === 'init') {
+      start();
+    }else if (game.state === 'gameover') {
+      init();
+    }else if (game.state === 'gaming' && game.dino.moveY === 0) {
+      game.dino.moveY = -41;
+      game.bgm2.play();
+    }
+  });
+
+  canvas.addEventListener("touchstart", () => {
+    if(game.state === 'init') {
+      start();
+    }else if (game.state === 'gameover') {
+      init();
+    } else if (game.state === 'gaming' && game.dino.moveY === 0) {
+      game.dino.moveY = -41
+      game.bgm2.play();
+    }
+  });
+
 document.onkeydown = (e) => {
+  
   if(e.code === 'Space' && game.state === 'init'){
     start();
   }
@@ -228,7 +251,7 @@ document.onkeydown = (e) => {
     game.dino.moveY = -41;
     game.bgm2.play();
   }
-if (e.code === 'Enter' && game.state === 'gameove'){
+if (e.code === 'Enter' && game.state === 'gameover'){
   init();
 }
 };
